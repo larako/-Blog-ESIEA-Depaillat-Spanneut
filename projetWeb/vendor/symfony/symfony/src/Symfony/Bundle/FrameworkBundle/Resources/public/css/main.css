@@ -1,0 +1,24 @@
+body{
+	background-color: #7B74E6;
+}
+
+.titre{
+	text-align: center;
+}
+
+
+}
+.gauche {
+	float: left;
+	 width:20%;
+	 background-color: #7C4153;
+	
+}
+
+.droite{
+	margin-left:20%;
+	background-color: white;
+	margin-right: 20%;
+}
+
+
