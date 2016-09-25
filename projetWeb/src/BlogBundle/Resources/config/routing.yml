@@ -1,0 +1,14 @@
+blog_redirection:
+    path: /
+    defaults: { _controller: BlogBundle:Advert:redi }
+
+blog_homepage:
+    path:     /accueil
+    defaults: { _controller: BlogBundle:Advert:index }
+
+blog_ListeDinosaures:
+    path:     /accueil/Dino
+    defaults: { _controller: BlogBundle:Mainpage:index }
+
+
+ 
