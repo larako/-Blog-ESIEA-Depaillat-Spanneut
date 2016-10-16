@@ -35,12 +35,15 @@ class MainpageController extends Controller
     	echo("aaa");
         // $form->getData() holds the submitted values
         // but, the original `$task` variable has also been updated
-        $file = $form->get('attachment')->getData();
-        //$file->move('BlogBundle',$file->getClientOriginalName());         	 
+        $file = $form->get('attachment')->getData();               	 
         $extensionFile= $file->guessExtension();
         $extensionTorrent = array('.torrent');
         if ($extensionFile!=$extensionTorrent){
          echo 'veuillez uploader un fichier .torrent';
+        }
+        else{
+          //on stock le fichier 
+          $file->move('uploads/torrent',$file->getClientOriginalName()); 
         } 
     }
         return $this->render('BlogBundle:Mainpage:index.html.twig',array('form'=> $form ->createView()));
