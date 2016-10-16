@@ -7,8 +7,12 @@ blog_homepage:
     defaults: { _controller: BlogBundle:Advert:index }
 
 blog_ListeDinosaures:
-    path:     /accueil/Dino
+    path:     /accueil/torrent
     defaults: { _controller: BlogBundle:Mainpage:index }
+
+blog_ajout:
+    path:     /accueil/Dino/ajout
+    defaults: { _controller: BlogBundle:Mainpage:ajout }
 
 
  
