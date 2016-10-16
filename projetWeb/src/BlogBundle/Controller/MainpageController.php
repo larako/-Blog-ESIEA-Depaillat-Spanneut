@@ -32,13 +32,12 @@ class MainpageController extends Controller
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-    	echo("aaa");
         // $form->getData() holds the submitted values
         // but, the original `$task` variable has also been updated
         $file = $form->get('attachment')->getData();               	 
         $extensionFile= $file->guessExtension();
-        $extensionTorrent = array('.torrent');
-        if ($extensionFile!=$extensionTorrent){
+        echo ($extensionFile);
+        if ($extensionFile!='torrent'){
          echo 'veuillez uploader un fichier .torrent';
         }
         else{
