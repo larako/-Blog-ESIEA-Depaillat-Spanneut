@@ -42,7 +42,9 @@ class MainpageController extends Controller
         }
         else{
           //on stock le fichier 
-          $file->move('uploads/torrent',$file->getClientOriginalName()); 
+          $file->move('uploads/torrent',$file->getClientOriginalName());
+          //on stock toutes les données dans la BDD
+
         } 
     }
         return $this->render('BlogBundle:Mainpage:index.html.twig',array('form'=> $form ->createView()));

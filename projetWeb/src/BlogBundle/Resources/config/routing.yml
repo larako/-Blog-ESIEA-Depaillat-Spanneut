@@ -11,7 +11,7 @@ blog_ListeDinosaures:
     defaults: { _controller: BlogBundle:Mainpage:index }
 
 blog_ajout:
-    path:     /accueil/Dino/ajout
+    path:     /accueil/torrent/ajout
     defaults: { _controller: BlogBundle:Mainpage:ajout }
 
 
