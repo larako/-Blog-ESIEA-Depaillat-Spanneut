@@ -6,7 +6,7 @@ blog_homepage:
     path:     /accueil
     defaults: { _controller: BlogBundle:Advert:index }
 
-blog_ListeDinosaures:
+blog_ListeTorrent:
     path:     /accueil/torrent
     defaults: { _controller: BlogBundle:Mainpage:index }
 

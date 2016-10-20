@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="{{ asset('bundles/framework/css/main.css') }}" type="text/css" />
+<H4>liste torrents</h4> 
+<table>
+{% for torrent in advert %}
+	<td>{{torrent.getNomTorrent()}} </td>
+	<td>{{torrent.getTailleFichier()}} </td>
+	<td>{{torrent.getDate()|date}} </td>
+	<td>{{torrent.getAuteur()}} </td>
+	<td>{{torrent.getDescription()}} </td>
+{% endfor %} 
+</table>
