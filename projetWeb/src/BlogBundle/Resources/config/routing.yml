@@ -6,13 +6,18 @@ blog_homepage:
     path:     /accueil
     defaults: { _controller: BlogBundle:Advert:index }
 
-blog_ListeTorrent:
-    path:     /accueil/torrent
-    defaults: { _controller: BlogBundle:Mainpage:index }
-
 blog_ajout:
-    path:     /accueil/torrent/ajout
+    path:     /accueil/ajout
     defaults: { _controller: BlogBundle:Mainpage:ajout }
+
+blog_ListeTorrent:
+    path:     /accueil/ajout/liste
+    defaults: { _controller: BlogBundle:Mainpage:liste }
+
+
+blog_suppression:
+    path:     /accueil/ajout/liste/supprimer
+    defaults: { _controller: BlogBundle:Mainpage:supprimer }
 
 
  

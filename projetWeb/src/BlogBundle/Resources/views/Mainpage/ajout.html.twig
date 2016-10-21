@@ -1,11 +1,5 @@
-<link rel="stylesheet" href="{{ asset('bundles/framework/css/main.css') }}" type="text/css" />
-<H4>liste torrents</h4> 
-<table>
-{% for torrent in advert %}
-	<td>{{torrent.getNomTorrent()}} </td>
-	<td>{{torrent.getTailleFichier()}} </td>
-	<td>{{torrent.getDate()|date}} </td>
-	<td>{{torrent.getAuteur()}} </td>
-	<td>{{torrent.getDescription()}} </td>
-{% endfor %} 
-</table>
+<a href="{{ path('blog_ListeTorrent') }}">liste torrents</a>
+<a href="{{ path('blog_homepage') }}">accueil</a>
+
+<h4>formulaire d'upload </h4>
+ {{ form(form) }}

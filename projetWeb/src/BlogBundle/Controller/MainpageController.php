@@ -22,7 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 class MainpageController extends Controller
 {
 
-  public function indexAction(Request $request)
+  public function ajoutAction(Request $request)
   {
 
   		  $form = $this->createFormBuilder()
@@ -53,16 +53,16 @@ class MainpageController extends Controller
             // Étape 2 : On « flush » tout ce qui a été persisté avant
             $em->flush();
 
-            return $this->redirect($this->generateUrl('blog_ajout', array('id' => $advert->getId())));
+            return $this->redirect($this->generateUrl('blog_ListeTorrent', array('id' => $advert->getId())));
         } 
     }
-        return $this->render('BlogBundle:Mainpage:index.html.twig',array('form'=> $form ->createView()));
+        return $this->render('BlogBundle:Mainpage:ajout.html.twig',array('form'=> $form ->createView()));
 
 
   }
 
 
-  public function ajoutAction(Request $request){
+  public function listeAction(Request $request){
 
         //gestion de la BDD
         // On récupère le repository
@@ -72,34 +72,30 @@ class MainpageController extends Controller
 
     // On récupère l'entité correspondante à l'id $id
     $advert = $repository->findAll();
+ 
 
     // Le render ne change pas, on passait avant un tableau, maintenant un objet
-    return $this->render('BlogBundle:Mainpage:ajout.html.twig', array( 'advert' => $advert));
+    return $this->render('BlogBundle:Mainpage:liste.html.twig', array( 'advert' => $advert ));
 
+  }
 
-  	//gestion de la BDD
-  	/*$advert = new Advert();
-  	$advert->setNomTorrent('xxx');
-  	$advert->setTailleFichier('5');
-  	$advert->setAuteur('cyril');
-  	$advert->setDescription('cela va t-il marcher ?');
+  public function supprimerAction(Request $request){
+        $repository = $this->getDoctrine()
+      ->getManager()
+      ->getRepository('BlogBundle:Advert');
+    // On récupère l'entité correspondante à l'id $id
+    $advert = $repository->findAll();
+    
+    
 
-  	$em = $this->getDoctrine()->getManager();
-  	 // Étape 1 : On « persiste » l'entité
-    $em->persist($advert);
-    // Étape 2 : On « flush » tout ce qui a été persisté avant
-    $em->flush();
+   if (isset($_POST['sup'])){ 
+        $entity = $this->getDoctrine()->getEntityManager();
+        $query = $entity->createQuery('DELETE FROM BlogBundle\Entity\Advert');
+        $query->execute();
+    }
+    
 
-    // Reste de la méthode qu'on avait déjà écrit
-    if ($request->isMethod('POST')) {
-      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-      return $this->redirect($this->generateUrl('blog_ListeDinosaures', array('id' => $advert->getId())));
-
-    }*/
-
-    //return $this->render('BlogBundle:Mainpage:ajout.html.twig');
-
-
+    return $this->render('BlogBundle:Mainpage:test.html.twig');
   }
 
 }
