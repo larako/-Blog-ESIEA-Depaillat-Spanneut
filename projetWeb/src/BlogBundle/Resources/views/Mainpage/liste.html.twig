@@ -1,21 +1,23 @@
-<link rel="stylesheet" href="{{ asset('bundles/framework/css/main.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/css/main.css') }}" type="text/css" />
  <a href="{{ path('blog_ajout') }}">ajout torrents</a>
  <a href="{{ path('blog_homepage') }}">accueil</a>
-<H4>liste torrents</h4> 
+<H4>liste torrents</h4>
 <table>
 {%set val=1 %}
 <form action="{{path('blog_suppression')}}" method="post">
 {% for torrent in advert %}
 	<tr>
+	<td>{{torrent.getId()}} </td>
 	<td>{{torrent.getNomTorrent()}} </td>
 	<td>{{torrent.getTailleFichier()}} </td>
 	<td>{{torrent.getDate()|date}} </td>
 	<td>{{torrent.getAuteur()}} </td>
 	<td>{{torrent.getDescription()}} </td>
-	<input type="radio" name="sup" value={{val}}/>
+	<td>{{torrent.getPathToFile()}} </td>
+	<input type="checkbox" name="sup[]" value={{torrent.getId()}}/>
 	</tr>
 {% set val=val+1 %}
-{% endfor %} 
+{% endfor %}
 <input type ="submit" value ="suppr" name ="suppr">
-<form>
+</form>
 </table>
