@@ -15,9 +15,9 @@ blog_ListeTorrent:
     defaults: { _controller: BlogBundle:Mainpage:liste }
 
 
-blog_suppression:
-    path:     /accueil/ajout/liste/supprimer
-    defaults: { _controller: BlogBundle:Mainpage:supprimer }
+blog_gestion:
+    path:     /accueil/ajout/liste/gestion
+    defaults: { _controller: BlogBundle:Mainpage:gestion }
 
 
  

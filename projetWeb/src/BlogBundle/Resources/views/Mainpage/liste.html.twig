@@ -1,21 +1,31 @@
-<link rel="stylesheet" href="{{ asset('bundles/framework/css/main.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/css/main.css') }}" type="text/css" />
  <a href="{{ path('blog_ajout') }}">ajout torrents</a>
  <a href="{{ path('blog_homepage') }}">accueil</a>
-<H4>liste torrents</h4> 
+<H4>liste torrents</h4>
+<p> vous pouvez update le nom du torrent et la description pour ca vous avez juste a change la case que vous voulez et cocher la case adequat </p>
+<p> pour supprimer cocher la case et appuyez sur suppr</p>
 <table>
 {%set val=1 %}
-<form action="{{path('blog_suppression')}}" method="post">
+<form action="{{path('blog_gestion')}}" method="post">
 {% for torrent in advert %}
 	<tr>
-	<td>{{torrent.getNomTorrent()}} </td>
+	<td>{{torrent.getId()}} </td>
+	<td><textarea class="area" name="nomTorrent{{torrent.getId()}}" rows="5" cols="25">{{torrent.getNomTorrent()}}</textarea> </td>
 	<td>{{torrent.getTailleFichier()}} </td>
 	<td>{{torrent.getDate()|date}} </td>
 	<td>{{torrent.getAuteur()}} </td>
-	<td>{{torrent.getDescription()}} </td>
-	<input type="radio" name="sup" value={{val}}/>
+	<td><textarea class="area" name="description{{torrent.getId()}}" rows="3" cols="15">{{torrent.getDescription()}}</textarea> </td>
+	<td>{{torrent.getPathToFile()}} </td>
+	<td><input type="checkbox" name="id[]" value={{torrent.getId()}}/></td>
 	</tr>
 {% set val=val+1 %}
-{% endfor %} 
+{% endfor %}
 <input type ="submit" value ="suppr" name ="suppr">
+<input type ="submit" value ="update" name ="update">
+<<<<<<< HEAD
 <form>
 </table>
+=======
+</form>
+</table>
+>>>>>>> 38349cb014f7cdc791b53418758fa4c90ef612f4

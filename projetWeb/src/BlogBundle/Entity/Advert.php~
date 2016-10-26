@@ -2,14 +2,13 @@
 
 namespace BlogBundle\Entity;
 
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Advert
  *
  * @ORM\Table(name="advert")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BlogBundle\Repository\AdvertRepository")
  */
 class Advert
 {
@@ -25,7 +24,7 @@ class Advert
     /**
      * @var string
      *
-     * @ORM\Column(name="NomTorrent", type="string", length=255)
+     * @ORM\Column(name="NomTorrent", type="string", length=255, unique=true)
      */
     private $nomTorrent;
 
@@ -57,12 +56,6 @@ class Advert
      */
     private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Path_To_File", type="text", nullable=true)
-     */
-    private $pathToFile;
 
     /**
      * Get id
@@ -194,30 +187,6 @@ class Advert
         return $this->description;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Advert
-     */
-    public function setPathToFile($pathToFile)
-    {
-        $this->pathToFile = $pathToFile;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getPathToFile()
-    {
-        return $this->pathToFile;
-    }
-
     public function __construct()
     {
     // Par défaut, la date de l'annonce est la date d'aujourd'hui
@@ -225,3 +194,4 @@ class Advert
     }
     
 }
+

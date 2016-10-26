@@ -1,0 +1,47 @@
+body{
+	background-color: #999999;
+}
+
+.titre{
+	text-align: center;
+}
+
+
+}
+.gauche {
+	float: left;
+	 width:20%;
+	 background-color: #7C4153;
+	
+}
+
+.droite{
+	margin-left:20%;
+	background-color: white;
+	margin-right: 20%;
+}
+
+.area{
+	background-color: #999999;
+	border : none;
+	text-align: center;
+	font-size: 16px;
+	color: black;
+	font-family: Arial;
+}
+table
+
+{
+
+    border-collapse: collapse; /* Les bordures du tableau seront collées (plus joli) */
+
+}
+
+td
+{
+
+    border: 1px solid black;
+
+}
+
+
