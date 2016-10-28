@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<a href="{{ path('blog_ajout') }}">ajout torrents</a>
+<a href="{{ path('blog_ajout') }}" xmlns="http://www.w3.org/1999/html">ajout torrents</a>
 <a href="{{ path('blog_homepage') }}">accueil</a>
 <H4>liste torrents</h4>
 <p> vous pouvez update le nom du torrent et la description pour ca vous avez juste a change la case que vous voulez et cocher la case adéquate </p>
@@ -13,6 +13,7 @@
 	<section class="col-lg-12">
 
 <form action="{{path('blog_gestion')}}" method="post">
+	<p><input class = "text-area-srch" type = "text" placeholder = "Rechercher un torrent" name = "search" value = "" /><button class= "btn btn-info glyphicon glyphicon-search" type = "submit"></button></p>
 	<table class="table table-bordered table-striped table-condensed">
 		<thead>
 		<tr style = "background-color: burlywood">
@@ -35,7 +36,7 @@
 			<td id = "td-center" >{{torrent.getDate()|date}}</td>
 			<td id = "td-center" >{{torrent.getAuteur()}}</td>
 			<td id = "td-center" ><input class = "text-area-trsp" type = "text" value = "{{torrent.getDescription()}}" name = "checklist[{{torrent.getId()}}][description]" /></td>
-			<td id = "td-center" ><input class = "text-area-trsp" type = "text" value = "{{torrent.getPathToFile()}}" readonly/></td>
+			<td id = "td-center" ><input class = "text-area-trsp" type = "text" value = "{{torrent.getPathToFile()}}" disabled/></td>
 			<td id = "td-center" ><input type="checkbox" name = "id[{{torrent.getId()}}]" value = "{{torrent.getId()}}" /></td>
 			</tr>
 		{% endfor %}

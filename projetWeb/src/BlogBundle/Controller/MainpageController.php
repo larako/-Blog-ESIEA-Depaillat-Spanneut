@@ -1,9 +1,5 @@
 <?php
 
-
-// src/BlogBundle/Controller/AdvertController.php
-
-
 namespace BlogBundle\Controller;
 
 
@@ -66,7 +62,6 @@ class MainpageController extends Controller
 
         // On récupère l'entité correspondante à l'id $id
         $advert = $repository->findAll();
-        $em = $this->getDoctrine()->getManager();
 
         // Le render ne change pas, on passait avant un tableau, maintenant un objet
         return $this->render('BlogBundle:Mainpage:liste.html.twig', array('advert' => $advert));
@@ -79,8 +74,17 @@ class MainpageController extends Controller
         $em = $this->getDoctrine()->getManager();
         $gestion = new Gestion;
         $checkedBoxArray = array();
-        //print_r ($_POST);
-        if (isset ($_POST['checklist'])) {
+        //print_r($_POST);
+        if (isset ($_POST['search']) && $_POST['search'] != NULL )
+        { // Fonction de recherche
+
+            $search = htmlspecialchars($_POST['search']);
+            $advert = $em->createQueryBuilder()->select("a")->from('BlogBundle:Advert', 'a')->where("a.nomTorrent LIKE '%$search%'")->orderBy('a.id', 'ASC');
+
+            return $this->render('BlogBundle:Mainpage:liste.html.twig', array('advert' => $advert->getQuery()->getResult()));
+        }
+
+        else if (isset ($_POST['checklist'])) {
             $checkedBoxArray = $_POST['checklist'];
         }
 
