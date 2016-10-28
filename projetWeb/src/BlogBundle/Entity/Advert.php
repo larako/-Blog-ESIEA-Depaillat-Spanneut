@@ -220,8 +220,8 @@ class Advert
 
     public function __construct()
     {
-    // Par défaut, la date de l'annonce est la date d'aujourd'hui
-    $this->date = new \Datetime();
+        // Par défaut, la date de l'annonce est la date d'aujourd'hui
+        $this->date = new \Datetime();
     }
-    
+
 }
