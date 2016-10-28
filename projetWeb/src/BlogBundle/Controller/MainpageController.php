@@ -33,9 +33,16 @@ class MainpageController extends Controller
                 echo 'veuillez uploader un fichier .torrent';
             } else {
                 //on stock le fichier
-                $file->move('../uploads/torrent', $file->getClientOriginalName());
+                $file->move('../uploads/torrent/', $file->getClientOriginalName());
+                //echo ("../uploads/torrent/" . $file->getClientOriginalName());
+                $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"".$file->getClientOriginalName()."\"";
+                $output = array();
+                exec ($commande, $output);
+                print_r($output);
+                //system ('java -jar ../../../bin/TorrentParser.jar ../../../uploads/torrent/' . $file->getClientOriginalName());
+               // $this->listeAction(null);
                 //on stock toutes les données dans la BDD
-                $gestion = new Gestion;
+                /*$gestion = new Gestion;
                 $advert = $gestion->insertionBDD($file->getClientOriginalName(), '../uploads/torrent/' . $file->getClientOriginalName());
                 $em = $this->getDoctrine()->getManager();
                 // Étape 1 : On « persiste » l'entité
@@ -43,7 +50,16 @@ class MainpageController extends Controller
                 // Étape 2 : On « flush » tout ce qui a été persisté avant
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('blog_ListeTorrent', array('id' => $advert->getId())));
+                return $this->redirect($this->generateUrl('blog_ListeTorrent', array('id' => $advert->getId())));*/
+                $repository = $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('BlogBundle:Advert');
+
+                // On récupère l'entité correspondante à l'id $id
+                $advert = $repository->findAll();
+
+                // Le render ne change pas, on passait avant un tableau, maintenant un objet
+                return $this->render('BlogBundle:Mainpage:liste.html.twig', array('advert' => $advert));
             }
         }
         return $this->render('BlogBundle:Mainpage:ajout.html.twig', array('form' => $form->createView()));
@@ -99,7 +115,9 @@ class MainpageController extends Controller
                     $em->flush();
                 }
             } else if (isset($_POST['suppr'])) {
-                $gestion->supprimer($repository, $em, $_POST['id']);
+                foreach ($_POST['id'] as $id) {
+                    $gestion->supprimer($repository, $em, $id, $checkedBoxArray[$id]['path']);
+                }
             }
         } else { // si il n'a pas coche la case
             if (isset($_POST['suppr']) || isset($_POST['update'])) {
