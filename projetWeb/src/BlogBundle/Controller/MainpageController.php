@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use BlogBundle\GestionBDD\Gestion;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MainpageController extends Controller
 {
@@ -18,6 +20,11 @@ class MainpageController extends Controller
 
         $form = $this->createFormBuilder()
             ->add('attachment', FileType::class)
+            ->add('auteur',TextType::class)
+            ->add('description', TextareaType::class,
+             array('attr' => array('class' => 'tinymce'),
+              'required'    => false,
+              'empty_data'  => ''))
             ->add('save', SubmitType::class, array('label' => 'upload torrent'))
             ->getForm();
 
@@ -26,7 +33,9 @@ class MainpageController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
+            $auteur = $form-> get('auteur')->getData();
             $file = $form->get('attachment')->getData();
+            $description=$form->get('description')->getData();
             $extensionFile = $file->guessExtension();
             echo($extensionFile);
             if ($extensionFile != 'torrent') {
@@ -36,7 +45,7 @@ class MainpageController extends Controller
                 $file->move('../uploads/torrent', $file->getClientOriginalName());
                 //on stock toutes les données dans la BDD
                 $gestion = new Gestion;
-                $advert = $gestion->insertionBDD($file->getClientOriginalName(), '../uploads/torrent/' . $file->getClientOriginalName());
+                $advert = $gestion->insertionBDD($file->getClientOriginalName(), '../uploads/torrent/' . $file->getClientOriginalName(),$auteur,$description);
                 $em = $this->getDoctrine()->getManager();
                 // Étape 1 : On « persiste » l'entité
                 $em->persist($advert);

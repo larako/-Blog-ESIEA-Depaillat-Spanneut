@@ -7,13 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class Gestion extends Controller
 {
 
-	public function insertionBDD($nomTorrent, $path)
+	public function insertionBDD($nomTorrent, $path,$auteur,$description)
 	{
 		$advert = new Advert();
 		$advert->setNomTorrent($nomTorrent);
 		$advert->setTailleFichier('5');
-		$advert->setAuteur('cyril');
-		$advert->setDescription('cela va t-il marcher ?');
+		$advert->setAuteur($auteur);
+		$advert->setDescription($description);
 		$advert->setPathToFile($path);
 		return $advert;
 	}

@@ -1,5 +1,22 @@
 body{
-	background-color: #999999;
+	  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+a {
+  color: #337ab7;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #23527c;
+  text-decoration: underline;
+}
+a:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 
 .titre{
@@ -11,7 +28,7 @@ body{
 .gauche {
 	float: left;
 	 width:20%;
-	 background-color: #7C4153;
+	 background-color: burlywood;
 	
 }
 
@@ -21,14 +38,6 @@ body{
 	margin-right: 20%;
 }
 
-.area{
-	background-color: #999999;
-	border : none;
-	text-align: center;
-	font-size: 16px;
-	color: black;
-	font-family: Arial;
-}
 table
 
 {
