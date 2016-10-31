@@ -18,14 +18,18 @@ class Gestion extends Controller
 		return $advert;
 	}
 
-	public function supprimer($repository, $em, $post)
+	public function supprimer($repository, $em, $id, $path)
 	{
-		if (is_array($post)) {
-			// On supprime toutes les entrées sélectionnées
-			foreach ($post as $id) {
-				$em->remove($repository->findOneBy(array('id' => $id)));
-				$em->flush();
-			}
+		// On supprime toutes les entrées sélectionnées
+		if (file_exists($path)) {
+			unlink($path); // Supprime le fichier du dossier
+			$em->remove($repository->findOneBy(array('id' => $id))); // Supprime le fichier de la BDD
+			$em->flush();
+		}
+		else{
+			echo ("extiste pathhhhh");
+			$em->remove($repository->findOneBy(array('id' => $id))); // Supprime le fichier de la BDD
+			$em->flush();
 		}
 	}
 

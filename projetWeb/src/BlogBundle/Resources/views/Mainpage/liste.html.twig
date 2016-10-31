@@ -36,7 +36,7 @@
 			<td id = "td-center" >{{torrent.getDate()|date}}</td>
 			<td id = "td-center" >{{torrent.getAuteur()}}</td>
 			<td id = "td-center" ><input class = "text-area-trsp" type = "text" value = "{{torrent.getDescription()}}" name = "checklist[{{torrent.getId()}}][description]" /></td>
-			<td id = "td-center" ><input class = "text-area-trsp" type = "text" value = "{{torrent.getPathToFile()}}" disabled/></td>
+			<td id = "td-center" ><input class = "text-area-trsp" type = "text" value = "{{torrent.getPathToFile()}}" name = "checklist[{{torrent.getId()}}][path]" readonly/></td>
 			<td id = "td-center" ><input type="checkbox" name = "id[{{torrent.getId()}}]" value = "{{torrent.getId()}}" /></td>
 			</tr>
 		{% endfor %}

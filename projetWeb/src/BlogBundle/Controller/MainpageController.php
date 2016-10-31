@@ -30,32 +30,37 @@ class MainpageController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $auteur = $form-> get('auteur')->getData();
-            $file = $form->get('attachment')->getData();
-            $description=$form->get('description')->getData();
-            $extensionFile = $file->guessExtension();
-            echo($extensionFile);
-            if ($extensionFile != 'torrent') {
-                echo 'veuillez uploader un fichier .torrent';
-            } else {
-                //on stock le fichier
-                $file->move('../uploads/torrent', $file->getClientOriginalName());
-                //on stock toutes les données dans la BDD
-                $gestion = new Gestion;
-                $advert = $gestion->insertionBDD($file->getClientOriginalName(), '../uploads/torrent/' . $file->getClientOriginalName(),$auteur,$description);
-                $em = $this->getDoctrine()->getManager();
-                // Étape 1 : On « persiste » l'entité
-                $em->persist($advert);
-                // Étape 2 : On « flush » tout ce qui a été persisté avant
-                $em->flush();
+        if (isset ($_FILES['userFile']))
+        {
+            foreach ($_FILES['userFile']['error'] as $file => $error) {
+                if ($error == UPLOAD_ERR_OK) {
+                    $tmp_name = $_FILES['userFile']['tmp_name'][$file];
+                    $name = $_FILES['userFile']['name'][$file];
+                    $extensionFile = new SplFileInfo($name, null, null);
+                    echo($extensionFile->getExtension());
+                    if ($extensionFile->getExtension() != 'torrent') {
+                        echo 'veuillez uploader un fichier .torrent';
+                    } else {
+                        //on stock le fichier
+                        move_uploaded_file($tmp_name,'../uploads/torrent/' . $name);
+                        //$file->move('../uploads/torrent/', $file->getClientOriginalName());
+                        //echo ("../uploads/torrent/" . $file->getClientOriginalName());
+                        $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"" . $name . "\"";
+                        $output = array();
+                        exec($commande, $output);
+                        //print_r($output);
 
-                return $this->redirect($this->generateUrl('blog_ListeTorrent', array('id' => $advert->getId())));
+                    }
+                }
             }
+            $repository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('BlogBundle:Advert');
+            $advert = $repository->findAll();
+            return $this->render('BlogBundle:Mainpage:liste.html.twig', array('advert' => $advert));
+
         }
-        return $this->render('BlogBundle:Mainpage:ajout.html.twig', array('form' => $form->createView()));
+        return $this->render('BlogBundle:Mainpage:ajout.html.twig');
     }
 
 
@@ -108,7 +113,9 @@ class MainpageController extends Controller
                     $em->flush();
                 }
             } else if (isset($_POST['suppr'])) {
-                $gestion->supprimer($repository, $em, $_POST['id']);
+                foreach ($_POST['id'] as $id) {
+                    $gestion->supprimer($repository, $em, $id, $checkedBoxArray[$id]['path']);
+                }
             }
         } else { // si il n'a pas coche la case
             if (isset($_POST['suppr']) || isset($_POST['update'])) {

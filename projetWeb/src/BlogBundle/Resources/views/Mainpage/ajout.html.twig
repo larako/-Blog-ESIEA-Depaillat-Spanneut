@@ -3,4 +3,8 @@
 <link rel="stylesheet" href="{{ asset('bundles/css/main.css') }}" type="text/css" />
 
 <h4>formulaire d'upload </h4>
-{{ form(form) }}
+<form action = "{{ path('blog_ajout') }}" method="post" enctype="multipart/form-data">
+    Envoyez plusieurs fichiers : <br />
+    <input name="userFile[]" multiple = "multiple" type="file" /><br />
+    <input type="submit" value="Envoyer les fichiers" />
+</form>
