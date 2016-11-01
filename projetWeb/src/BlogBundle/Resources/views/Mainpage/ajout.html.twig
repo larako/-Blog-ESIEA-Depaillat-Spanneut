@@ -9,3 +9,18 @@
     <input name = "userFile[]" multiple = "multiple" type="file" accept="application/x-bittorrent"/><br />
     <input type = "submit" value = "Envoyer les fichiers" />
 </form>
+
+{% if filePathTmp != null %}
+<form action = "{{ path('blog_gestionAjout') }}" method = "post">
+    {{ dump (fileList) }}
+    {{ dump (filePathTmp) }}
+    {% for index, file in fileList %}
+        <input name = "userFile[originalName][{{index}}]" type = "hidden" value = "{{ file }}" />
+        <input name = "userFile[tmpPath][{{index}}]" type = "hidden" value = "{{ filePathTmp[index] }}" />
+        <input type = "text" name = "userFile[newName][{{index}}]" value = "{{ file }}" placeholder = "Entrez un nom"/>
+        <input type = "text" name = "userFile[author][{{index}}]" placeholder = "Entrez un pseudo"/>
+        <input class = "area" type = "text" name = "userFile[description][{{index}}]" placeholder = "Entrez une description"/>
+    {% endfor %}
+<input type = "submit" value = "envoyer" />
+</form>
+{% endif %}

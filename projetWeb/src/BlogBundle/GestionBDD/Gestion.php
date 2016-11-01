@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class Gestion extends Controller
 {
 
-	public function insertionBDD($nomTorrent, $path,$auteur,$description)
+	public function insertionBDD($nomTorrent, $path, $auteur, $description)
 	{
 		$advert = new Advert();
 		$advert->setNomTorrent($nomTorrent);

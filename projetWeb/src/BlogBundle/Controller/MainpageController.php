@@ -11,38 +11,60 @@ use BlogBundle\GestionBDD\Gestion;
 
 class MainpageController extends Controller
 {
+    public function printAreaTextAction ()
+    {
+        if (isset ($_FILES['userFile']))
+        {
+
+            $loader = new \Twig_Loader_Filesystem('');
+            $twig = new \Twig_Environment($loader, array(
+                'debug' => true
+            ));
+            print_r($_FILES);
+            for ($i = 0; $i < count($_FILES['userFile']['name']); $i++)
+            {
+                $tmp = $_FILES['userFile']['tmp_name'][$i];
+                move_uploaded_file($tmp,'../uploads/Temp/'.$_FILES['userFile']['name'][$i]);
+                $_FILES['userFile']['tmp_name'][$i] = '../uploads/Temp/'.$_FILES['userFile']['name'][$i];
+            }
+            $twig->addExtension(new \Twig_Extension_Debug());
+
+            return $this->render('BlogBundle:Mainpage:ajout.html.twig', array('fileList' => $_FILES['userFile']['name'], 'filePathTmp' => $_FILES['userFile']['tmp_name']));
+        }
+        return $this->render('BlogBundle:Mainpage:ajout.html.twig', array('filePathTmp' => null));
+    }
 
     public function ajoutAction(Request $request)
     {
-
-        if (isset ($_FILES['userFile']))
+        print_r($_POST);
+        if (isset ($_POST['userFile']))
         {
-            print_r($_FILES);
-            foreach ($_FILES['userFile']['error'] as $file => $error) {
-                if ($error == UPLOAD_ERR_OK) {
-                    $tmp_name = $_FILES['userFile']['tmp_name'][$file];
-                    $name = iconv("utf-8", "cp1258", $_FILES['userFile']['name'][$file]);
+            //print_r($_FILES);
+            for ($i = 0; $i < count($_POST['userFile']['originalName']); $i++) {
+                   $tmp_name = $_POST['userFile']['tmpPath'][$i];
+                    $name = iconv("utf-8", "cp1258", $_POST['userFile']['originalName'][$i]);
                     $extensionFile = new SplFileInfo($name, null, null);
                     echo($extensionFile);
                     if ($extensionFile->getExtension() != 'torrent') {
                         echo 'veuillez uploader un fichier .torrent';
+                        unlink ($tmp_name);
                     } else {
                         //on stock le fichier
-                        move_uploaded_file($tmp_name,'../uploads/torrent/' . $name);
+                        rename($tmp_name,'../uploads/torrent/' . $name);
                         $serverName = 'localhost';
                         $portNumber = '-1';
                         $dbName = 'Symfony';
                         $userName = 'root';
                         $password = 'root';
-                        $author = 'root';
-                        $description = 'Coucou';
+                        $author = $_POST['userFile']['author'][$i];
+                        $description = $_POST['userFile']['description'][$i];
                         $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"" . $name . "\" " . $serverName . " " . $portNumber . " " . $dbName . " " . $userName . " " . $password . " " . $author . " " . $description;
                         $output = array();
                         exec($commande, $output);
                         //print_r($output);
 
                     }
-                }
+
             }
             $repository = $this->getDoctrine()
                 ->getManager()
@@ -51,7 +73,7 @@ class MainpageController extends Controller
             return $this->render('BlogBundle:Mainpage:liste.html.twig', array('advert' => $advert));
 
         }
-        return $this->render('BlogBundle:Mainpage:ajout.html.twig');
+        return $this->render('BlogBundle:Mainpage:ajout.html.twig', array('filePathTmp' => null));
     }
 
 
@@ -105,7 +127,7 @@ class MainpageController extends Controller
                 }
             } else if (isset($_POST['suppr'])) {
                 foreach ($_POST['id'] as $id) {
-                    $gestion->supprimer($repository, $em, $id, $checkedBoxArray[$id]['path']);
+                    $gestion->supprimer($repository, $em, $id, iconv("utf-8", "cp1258", $checkedBoxArray[$id]['path']));
                 }
             }
         } else { // si il n'a pas coche la case

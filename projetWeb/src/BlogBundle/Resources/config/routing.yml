@@ -8,16 +8,19 @@ blog_homepage:
 
 blog_ajout:
     path:     /accueil/ajout
-    defaults: { _controller: BlogBundle:Mainpage:ajout }
+    defaults: { _controller: BlogBundle:Mainpage:printAreaText }
 
 blog_ListeTorrent:
-    path:     /accueil/ajout/liste
+    path:     /accueil/liste
     defaults: { _controller: BlogBundle:Mainpage:liste }
 
-
 blog_gestion:
-    path:     /accueil/ajout/liste/gestion
+    path:     /accueil/gestion
     defaults: { _controller: BlogBundle:Mainpage:gestion }
+
+blog_gestionAjout:
+    path:     /accueil/ajout2
+    defaults: { _controller: BlogBundle:Mainpage:ajout }
 
 
  
