@@ -2,10 +2,13 @@
 
 {% block title %}{{ parent() }} - Liste{% endblock %}
 
+{% block liste %}
+	<li>  <a href="{{ path('blog_homepage') }}">Accueil</a> </li>
+	<li>  <a href="{{ path('blog_ajout') }}">Ajouter des torrents</a> </li>
+{% endblock %}
+
 {% block body %}
 
-<a href="{{ path('blog_ajout') }}" xmlns="http://www.w3.org/1999/html">ajout torrents</a>
-<a href="{{ path('blog_homepage') }}">accueil</a>
 <H4>liste torrents</h4>
 <p> vous pouvez update le nom du torrent et la description pour ca vous avez juste a change la case que vous voulez et cocher la case adéquate </p>
 <p> pour supprimer cocher la case et appuyez sur suppr</p>

@@ -32,7 +32,7 @@ class Advert
     /**
      * @var int
      *
-     * @ORM\Column(name="TailleFichier", type="integer")
+     * @ORM\Column(name="TailleFichier", type="bigint")
      */
     private $tailleFichier;
 

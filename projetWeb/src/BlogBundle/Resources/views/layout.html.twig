@@ -17,11 +17,9 @@
                         else if (source.checked === false) allInputs[i].checked = false;
                 }
             }
-        </script>
 
-        <script language="JavaScript">
             function convertSize(nbOctets)
-            { // Toggle toutes les checkbox
+            { // Convertit les octets en Go, Mo, ko, octets, etc...
                 nbOctets = Math.abs(parseInt(nbOctets, 10));
                 var def = [[1, 'octets'], [1024, 'ko'], [1024*1024, 'Mo'], [1024*1024*1024, 'Go'], [1024*1024*1024*1024, 'To']];
                 for(var i=0; i<def.length; i++){
@@ -30,7 +28,21 @@
                 }
             }
         </script>
-    {% block body %}
+
+        <header class = "navbar navbar-inverse navbar-fixed-top bs-docs-nav" role = "banner">
+            <div class = "container">
+                <nav class = "collapse navbar-collapse bs-navbar-collapse" role = "navigation">
+                    <form class = "navbar-form navbar-left" role = "search">
+                        <ul class = "nav navbar-nav">
+                            {% block liste %} {% endblock %}
+                        </ul>
+                    </form>
+                </nav>
+            </div>
+        </header>
+        <div>
+        {% block body %}
         {% endblock %}
+        </div>
     </body>
 </html>

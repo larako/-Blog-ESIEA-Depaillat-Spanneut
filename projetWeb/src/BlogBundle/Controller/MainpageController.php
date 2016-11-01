@@ -5,12 +5,9 @@ namespace BlogBundle\Controller;
 
 use PDO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
 use BlogBundle\GestionBDD\Gestion;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MainpageController extends Controller
 {
@@ -18,34 +15,28 @@ class MainpageController extends Controller
     public function ajoutAction(Request $request)
     {
 
-        $form = $this->createFormBuilder()
-            ->add('attachment', FileType::class)
-            ->add('auteur',TextType::class)
-            ->add('description', TextareaType::class,
-             array('attr' => array('class' => 'tinymce'),
-              'required'    => false,
-              'empty_data'  => ''))
-            ->add('save', SubmitType::class, array('label' => 'upload torrent'))
-            ->getForm();
-
-        $form->handleRequest($request);
-
         if (isset ($_FILES['userFile']))
         {
+            print_r($_FILES);
             foreach ($_FILES['userFile']['error'] as $file => $error) {
                 if ($error == UPLOAD_ERR_OK) {
                     $tmp_name = $_FILES['userFile']['tmp_name'][$file];
-                    $name = $_FILES['userFile']['name'][$file];
+                    $name = iconv("utf-8", "cp1258", $_FILES['userFile']['name'][$file]);
                     $extensionFile = new SplFileInfo($name, null, null);
-                    echo($extensionFile->getExtension());
+                    echo($extensionFile);
                     if ($extensionFile->getExtension() != 'torrent') {
                         echo 'veuillez uploader un fichier .torrent';
                     } else {
                         //on stock le fichier
                         move_uploaded_file($tmp_name,'../uploads/torrent/' . $name);
-                        //$file->move('../uploads/torrent/', $file->getClientOriginalName());
-                        //echo ("../uploads/torrent/" . $file->getClientOriginalName());
-                        $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"" . $name . "\"";
+                        $serverName = 'localhost';
+                        $portNumber = '-1';
+                        $dbName = 'Symfony';
+                        $userName = 'root';
+                        $password = 'root';
+                        $author = 'root';
+                        $description = 'Coucou';
+                        $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"" . $name . "\" " . $serverName . " " . $portNumber . " " . $dbName . " " . $userName . " " . $password . " " . $author . " " . $description;
                         $output = array();
                         exec($commande, $output);
                         //print_r($output);

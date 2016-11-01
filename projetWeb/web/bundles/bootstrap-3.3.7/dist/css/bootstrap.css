@@ -6847,3 +6847,17 @@ td#td-center {
   vertical-align: middle;
   text-overflow: ellipsis;
 }
+
+.scroll {
+  overflow: auto;
+  height: 100%;
+  padding: 0;
+  margin-left: 37px;
+}
+
+body, html {
+  height: 100%;
+  overflow: auto;
+  padding-top: 44px;
+  padding-bottom: 25px;
+}
