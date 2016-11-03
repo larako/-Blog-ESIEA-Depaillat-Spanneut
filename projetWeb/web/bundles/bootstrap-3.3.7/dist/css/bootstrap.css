@@ -9,6 +9,14 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+.article{
+  margin-left: 12%;
+  margin-right: 12%;
+  background-color: white;
+  height: 100%;
+  
+}
+
 body {
   margin: 0;
 }

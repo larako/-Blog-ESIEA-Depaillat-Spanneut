@@ -24,8 +24,8 @@ class MainpageController extends Controller
             for ($i = 0; $i < count($_FILES['userFile']['name']); $i++)
             {
                 $tmp = $_FILES['userFile']['tmp_name'][$i];
-                move_uploaded_file($tmp,'../uploads/Temp/'.$_FILES['userFile']['name'][$i]);
-                $_FILES['userFile']['tmp_name'][$i] = '../uploads/Temp/'.$_FILES['userFile']['name'][$i];
+                move_uploaded_file($tmp,'../uploads/torrent/'.$_FILES['userFile']['name'][$i]);
+                $_FILES['userFile']['tmp_name'][$i] = '../uploads/torrent/'.$_FILES['userFile']['name'][$i];
             }
             $twig->addExtension(new \Twig_Extension_Debug());
 
@@ -54,13 +54,21 @@ class MainpageController extends Controller
                         $serverName = 'localhost';
                         $portNumber = '-1';
                         $dbName = 'Symfony';
-                        $userName = 'root';
+                        $userName = 'cyril';
                         $password = 'root';
                         $author = $_POST['userFile']['author'][$i];
                         $description = $_POST['userFile']['description'][$i];
+                       
                         $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"" . $name . "\" " . $serverName . " " . $portNumber . " " . $dbName . " " . $userName . " " . $password . " " . $author . " " . $description;
+                        var_dump("aaaaaaa".$commande);
                         $output = array();
+                         try{
                         exec($commande, $output);
+                        
+                        }
+                        catch(Exception $e){
+                            echo 'Exception reçue : ',  $e->getMessage(), "\n";
+                        }
                         //print_r($output);
 
                     }
@@ -82,7 +90,7 @@ class MainpageController extends Controller
 
         //gestion de la BDD
         // On récupère le repository
-        //$this->createBDD(); // A utiliser si la BDD est vide et qu'il y a des .torrent dans uploads
+       // $this->createBDD(); // A utiliser si la BDD est vide et qu'il y a des .torrent dans uploads
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('BlogBundle:Advert');
@@ -149,7 +157,7 @@ class MainpageController extends Controller
         {
             echo "Gestionnaire du dossier : $handle\n";
             echo "Entrées :\n";
-            $bdd = new PDO('mysql:host=localhost;dbname=Symfony;charset=utf8', 'root', 'root');
+            $bdd = new PDO('mysql:host=localhost;dbname=Symfony;charset=utf8', 'cyril', 'root');
             $bdd->query('ALTER TABLE Advert AUTO_INCREMENT=0');
             /* Ceci est la façon correcte de traverser un dossier. */
             foreach (glob("../uploads/torrent/*.torrent") as $filename)
