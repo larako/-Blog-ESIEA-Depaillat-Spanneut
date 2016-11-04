@@ -20,7 +20,6 @@ class MainpageController extends Controller
             $twig = new \Twig_Environment($loader, array(
                 'debug' => true
             ));
-            print_r($_FILES);
             for ($i = 0; $i < count($_FILES['userFile']['name']); $i++)
             {
                 $tmp = $_FILES['userFile']['tmp_name'][$i];
@@ -36,7 +35,6 @@ class MainpageController extends Controller
 
     public function ajoutAction(Request $request)
     {
-        print_r($_POST);
         if (isset ($_POST['userFile']))
         {
             //print_r($_FILES);
@@ -44,7 +42,6 @@ class MainpageController extends Controller
                    $tmp_name = $_POST['userFile']['tmpPath'][$i];
                     $name = iconv("utf-8", "cp1258", $_POST['userFile']['originalName'][$i]);
                     $extensionFile = new SplFileInfo($name, null, null);
-                    echo($extensionFile);
                     if ($extensionFile->getExtension() != 'torrent') {
                         echo 'veuillez uploader un fichier .torrent';
                         unlink ($tmp_name);
@@ -60,7 +57,6 @@ class MainpageController extends Controller
                         $description = $_POST['userFile']['description'][$i];
                        
                         $commande = "java -jar ../bin/TorrentParser.jar ../uploads/torrent/\"" . $name . "\" " . $serverName . " " . $portNumber . " " . $dbName . " " . $userName . " " . $password . " " . $author . " " . $description;
-                        var_dump("aaaaaaa".$commande);
                         $output = array();
                          try{
                         exec($commande, $output);

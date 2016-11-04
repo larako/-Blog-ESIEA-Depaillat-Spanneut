@@ -12,8 +12,6 @@
 
 {% if filePathTmp != null %}
 <form action = "{{ path('blog_gestionAjout') }}" method = "post">
-    {{ dump (fileList) }}
-    {{ dump (filePathTmp) }}
     {% for index, file in fileList %}
         <input name = "userFile[originalName][{{index}}]" type = "hidden" value = "{{ file }}" />
         <input name = "userFile[tmpPath][{{index}}]" type = "hidden" value = "{{ filePathTmp[index] }}" />
